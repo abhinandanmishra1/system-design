@@ -20,15 +20,22 @@ class ShardedDB:
         # Initialize connections for geographic sharding
         geo_dbs = ['NA', 'EU', 'ASIA', 'OTHER']
         for region in geo_dbs:
-            self.connections[f'geo_{region}'] = self._create_connection(f'social_media_{region}')
+            shard_id = f'geo_{region}'
+            # region should be lowercased
+            database_name = f'social_media_{region.lower()}'
+            self.connections[shard_id] = self._create_connection(database_name)
 
         # Initialize connections for range-based sharding
         for i in range(1, 4):
-            self.connections[f'range_{i}'] = self._create_connection(f'social_media_range_{i}')
+            shard_id = f'range_{i}'
+            database_name = f'social_media_range_{i}'
+            self.connections[shard_id] = self._create_connection(database_name)
 
         # Initialize connections for hash-based sharding
         for i in range(4):
-            self.connections[f'hash_{i}'] = self._create_connection(f'social_media_hash_{i}')
+            shard_id = f'hash_{i}'
+            database_name = f'social_media_hash_{i}'
+            self.connections[shard_id] = self._create_connection(database_name)
 
     def _create_connection(self, database: str) -> mysql.connector.MySQLConnection:
         try:

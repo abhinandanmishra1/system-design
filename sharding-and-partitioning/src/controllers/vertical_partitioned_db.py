@@ -1,4 +1,3 @@
-import mysql.connector
 from ..utils import get_connection
 
 class VerticalPartitionedDB:

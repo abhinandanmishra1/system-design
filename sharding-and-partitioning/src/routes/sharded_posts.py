@@ -27,7 +27,7 @@ class PostResponse(BaseModel):
     created_at: str
     shard_id: str
 
-@sharded_posts_router.post("/sharded", response_model=PostResponse)
+@sharded_posts_router.post("/", response_model=PostResponse)
 async def create_sharded_post(post: ShardedPostCreate):
     try:
         response = sharded_db.create_post(post.sharding_strategy.value, post.user_id, post.content)
@@ -37,7 +37,7 @@ async def create_sharded_post(post: ShardedPostCreate):
         print(e)
         raise HTTPException(status_code=500, detail=str(e))
 
-@sharded_posts_router.get("/sharded/{post_id}", response_model=PostResponse)
+@sharded_posts_router.get("/{post_id}", response_model=PostResponse)
 async def get_post(post_id: int):
     try:
         shard_id = post_id_to_shard_id[post_id]

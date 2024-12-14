@@ -33,8 +33,12 @@ async def create_vertical_post(post: PostCreate):
             user_id=created_post[1],
             content=created_post[2],
             created_at=str(created_post[3]),
+            media_url=created_post[4],
+            media_type=created_post[5],
             likes_count=created_post[6],
-            comments_count=created_post[7]
+            comments_count=created_post[7],
+            shares_count=created_post[8],
+            views_count=created_post[9]
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -43,7 +47,7 @@ async def create_vertical_post(post: PostCreate):
 async def get_vertical_post(post_id: int):
     try:
         post = vertical_db.get_post_complete(post_id)
-        print(post)
+
         if post is None:
             raise HTTPException(status_code=404, detail="Post not found")
         return PostResponse(

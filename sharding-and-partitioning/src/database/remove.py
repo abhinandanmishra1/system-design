@@ -7,6 +7,7 @@ load_dotenv()
 host=os.environ["host"]
 username=os.environ["username"]
 password=os.environ["password"]
+port = os.environ["port"]
 
 def delete_databases(cursor, database_names=None, pattern=None):
     """
@@ -40,11 +41,12 @@ def main():
     try:
         # Connect to the MySQL server
         connection = mysql.connector.connect(
-            host=host,  # Replace with your MySQL host
-            user=username,  # Replace with your MySQL username
-            password=password  # Replace with your MySQL password
+            host=host,  
+            user=username,  
+            password=password,
+            port=port
         )
-        
+
         if connection.is_connected():
             print("Connected to MySQL Server")
             cursor = connection.cursor()
